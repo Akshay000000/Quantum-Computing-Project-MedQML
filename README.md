@@ -42,13 +42,33 @@ The goal is to demonstrate how **quantum circuits** can enhance feature separabi
 ---
 
 ## Model Architecture
-Input (14×14×4 Quantum Features)
-│
-├── Flatten
-├── Dense(256, L2=0.001) + BatchNorm + ReLU + Dropout(0.4)
-├── Dense(128, L2=0.001) + BatchNorm + ReLU + Dropout(0.3)
-├── Dense(64, ReLU)
-└── Dense(2, Softmax)
+
+| Layer (Type) | Output Shape | Parameters | Description |
+|:--|:--:|:--|
+| **InputLayer** | (14, 14, 4) | 0 | Input quantum feature map (from 4-qubit circuit) |
+| **Flatten** | (784) | 0 | Converts 2D quantum features into 1D vector |
+| **Dense (256)** | (256) | 200,960 | Fully connected layer with L2 regularization |
+| **BatchNormalization** | (256) | 1,024 | Normalizes activations for stable training |
+| **ReLU Activation** | (256) | 0 | Introduces non-linearity |
+| **Dropout (0.4)** | (256) | 0 | Prevents overfitting by randomly dropping neurons |
+| **Dense (128)** | (128) | 32,896 | Second hidden layer with L2 regularization |
+| **BatchNormalization** | (128) | 512 | Normalizes activations |
+| **ReLU Activation** | (128) | 0 | Non-linear activation |
+| **Dropout (0.3)** | (128) | 0 | Regularization layer |
+| **Dense (64)** | (64) | 8,256 | Third hidden layer for deeper feature extraction |
+| **ReLU Activation** | (64) | 0 | Non-linear transformation |
+| **Dense (2)** | (2) | 130 | Output layer with Softmax for binary classification |
+| **Total Parameters** | — | **243,778** | Trainable model parameters |
+
+---
+
+### Summary
+- **Optimizer:** Adam (learning rate = 5e-5)  
+- **Loss Function:** Sparse Categorical Crossentropy  
+- **Metrics:** Accuracy  
+- **Regularization:** L2 (λ = 0.001) + Dropout (0.3–0.4)  
+- **EarlyStopping:** Enabled for validation loss  
+- **Model Type:** Quantum–Classical Hybrid Neural Network
 
 ---
 
